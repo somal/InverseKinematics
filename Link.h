@@ -16,7 +16,7 @@ public:
 
     ~Link() = default;
 
-    int get_DH_matrix();
+    vector<vector<float>> get_displacement_matrix(bool print);
 
 };
 

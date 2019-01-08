@@ -11,7 +11,7 @@
 #include <math.h>
 
 #include "Connection.h"
-#include "Joint.h"
+#include "Link.h"
 
 void split(const std::string &str, std::vector<std::string> &v) {
     std::stringstream ss(str);
@@ -49,7 +49,7 @@ void handle_data(std::vector<float> &input_data) {
 void parse_line(string &line, Connection *connection) {
     std::vector<std::string> line_vector;
     std::vector<float> input_vector;
-    std::cout << line << std::endl;
+//    std::cout << line << std::endl;
 
 
     split(line, line_vector);
@@ -60,15 +60,23 @@ void parse_line(string &line, Connection *connection) {
 }
 
 int main() {
+    // Manipulator configuration
+    auto joints = vector<RevoluteJoint>{RevoluteJoint("Joint0", 0, 0, 0),
+                                        RevoluteJoint("Joint1", 0, -M_PI, M_PI),
+                                        RevoluteJoint("Joint2", 0, -M_PI / 2, M_PI / 2),
+                                        RevoluteJoint("Joint3", 0, -M_PI, M_PI)
+    };
+
+    joints[1].set_angle(M_PI / 3);
+    auto links = vector<Link>{Link("Link0", 0, 0, 0, &joints[0]),
+                              Link("Link1", M_PI / 2, 10, 0, &joints[1]),
+                              Link("Link2", 0, 5, 0, &joints[2]),
+                              Link("Link3", 0, 5, 0, &joints[3])};
+    auto tmp = links[0].get_displacement_matrix(true);
+
     ifstream myfile;
     string line;
     auto connection = new Connection();
-
-    auto joint1 = new RevoluteJoint("Joint1", 0, -M_PI, M_PI);
-    auto joint2 = new RevoluteJoint("Joint2", 0, -M_PI / 2, M_PI / 2);
-    auto joint3 = new RevoluteJoint("Joint3", 0, -M_PI, M_PI);
-//    joints.push_back(new RevoluteJoint("Joint1", 0, 0, 1));
-//    joints[0].set_angle(0);
     myfile.open("/home/somal/Documents/2ndtest_mastersscholarshipinrobotics_sokolovmaxim/input.in");
     if (myfile.is_open()) {
         while (getline(myfile, line)) parse_line(line, connection);
