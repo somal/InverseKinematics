@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
+#include <math.h>
 
 #include "Connection.h"
 #include "Joint.h"
@@ -62,9 +63,10 @@ int main() {
     ifstream myfile;
     string line;
     auto connection = new Connection();
-    auto *joints = new vector<RevoluteJoint>();
-    auto joint1 = new RevoluteJoint("Joint1", 0, 0, 1);
-    joint1->set_angle(3);
+
+    auto joint1 = new RevoluteJoint("Joint1", 0, -M_PI, M_PI);
+    auto joint2 = new RevoluteJoint("Joint2", 0, -M_PI / 2, M_PI / 2);
+    auto joint3 = new RevoluteJoint("Joint3", 0, -M_PI, M_PI);
 //    joints.push_back(new RevoluteJoint("Joint1", 0, 0, 1));
 //    joints[0].set_angle(0);
     myfile.open("/home/somal/Documents/2ndtest_mastersscholarshipinrobotics_sokolovmaxim/input.in");

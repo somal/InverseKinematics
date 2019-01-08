@@ -5,9 +5,9 @@ using namespace std;
 
 RevoluteJoint::RevoluteJoint(string joint_name, float init_angle, float min_limit, float max_limit) {
     this->name = joint_name;
-    this->angle = init_angle;
     this->min_limit = min_limit;
     this->max_limit = max_limit;
+    this->set_angle(init_angle);
 }
 
 void RevoluteJoint::set_angle(float angle) {
