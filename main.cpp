@@ -5,11 +5,12 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
-#include "fstream"
-#include "Connection.h"
-
+#include <fstream>
 #include <iomanip>
 #include <algorithm>
+
+#include "Connection.h"
+#include "Joint.h"
 
 void split(const std::string &str, std::vector<std::string> &v) {
     std::stringstream ss(str);
@@ -61,6 +62,11 @@ int main() {
     ifstream myfile;
     string line;
     auto connection = new Connection();
+    auto *joints = new vector<RevoluteJoint>();
+    auto joint1 = new RevoluteJoint("Joint1", 0, 0, 1);
+    joint1->set_angle(3);
+//    joints.push_back(new RevoluteJoint("Joint1", 0, 0, 1));
+//    joints[0].set_angle(0);
     myfile.open("/home/somal/Documents/2ndtest_mastersscholarshipinrobotics_sokolovmaxim/input.in");
     if (myfile.is_open()) {
         while (getline(myfile, line)) parse_line(line, connection);
