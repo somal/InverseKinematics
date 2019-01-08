@@ -4,24 +4,19 @@
 #include "Joint.h"
 
 class Link {
-protected:
+private:
     float twist;
     float length;
     float offset;
     RevoluteJoint *joint;
+    string name;
 
 public:
-    Link(float twist, float length, float offset, RevoluteJoint *joint) {
-        this->twist = twist;
-        this->length = length;
-        this->offset = offset;
-        this->joint = joint;
-
-    }
+    Link(string name, float twist, float length, float offset, RevoluteJoint *joint);
 
     ~Link() = default;
 
-    virtual void get_DH_matrix()= 0;
+    int get_DH_matrix();
 
 };
 
