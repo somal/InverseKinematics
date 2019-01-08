@@ -4,6 +4,14 @@
 
 #include "Link.h"
 
+void print_matrix(vector<vector<float>> matrix) {
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix[0].size(); j++)
+            cout << matrix[i][j] << ' ';
+        cout << endl;
+    }
+}
+
 vector<vector<float>> Link::get_displacement_matrix(bool print = false) {
     auto D = vector<vector<float>>(4, vector<float>(4, 0));
     float angle = this->joint->get_angle();
@@ -15,11 +23,7 @@ vector<vector<float>> Link::get_displacement_matrix(bool print = false) {
     D[3] = vector<float>{0, 0, 0, 1};
 
     if (print) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++)
-                cout << D[i][j] << ' ';
-            cout << endl;
-        }
+        print_matrix(D);
     }
 
     return D;

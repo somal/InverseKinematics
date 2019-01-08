@@ -11,6 +11,24 @@
 
 #include "Manipulator.h"
 
+using namespace std;
+
+vector<vector<float>> mult(vector<vector<float>> A, vector<vector<float>> B) {
+    unsigned long N = A.size();
+    auto C = vector<vector<float>>(N, vector<float>(N, 0));
+    cout << N << endl;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            float num = 0;
+            for (int k = 0; k < N; k++) {
+                num += A[i][k] * B[k][j];
+            }
+            C[i][j] = num;
+        }
+    }
+
+    return C;
+}
 
 void split(const std::string &str, std::vector<std::string> &v) {
     std::stringstream ss(str);
@@ -29,8 +47,6 @@ void split(const std::string &str, std::vector<std::string> &v) {
     }
 }
 
-using namespace std;
-
 void handle_data(std::vector<float> &input_data, Manipulator *manipulator) {
     if (input_data.size() != 4) {
         throw std::invalid_argument("Data should has 4 elements inside");
@@ -48,7 +64,6 @@ void handle_data(std::vector<float> &input_data, Manipulator *manipulator) {
 vector<float> parse_line(string &line) {
     std::vector<std::string> line_vector;
     std::vector<float> input_vector;
-
 
     split(line, line_vector);
 
@@ -74,7 +89,8 @@ int main() {
     auto manipulator = new Manipulator(&links, connection);
 
     joints[1].set_angle(M_PI / 3);
-    auto tmp = links[0].get_displacement_matrix(true);
+    auto tmp = links[0].get_displacement_matrix(false);
+    auto res = mult(tmp, tmp);
 
     // Working with input file
     ifstream myfile;
