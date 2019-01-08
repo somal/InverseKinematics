@@ -11,4 +11,4 @@ add_executable(2ndtest_mastersscholarshipinrobotics_sokolovmaxim
         "input.in"
         Connection.cpp
         main.cpp
-        Joint.cpp)
+        Joint.cpp Link.cpp Link.h)
