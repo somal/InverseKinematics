@@ -8,10 +8,10 @@
 using namespace std;
 
 template<std::size_t N>
-int mult(int A[N][N], int B[N][N]) {
+int mult(float A[N][N], float B[N][N]) {
     static_assert(N > 1, "N must be greater than 1");
 
-    int C[N][N];
+    float C[N][N];
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
@@ -27,7 +27,6 @@ int mult(int A[N][N], int B[N][N]) {
 
     return 0;
 }
-
 
 int Connection::open() {}
 
