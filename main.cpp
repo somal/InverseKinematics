@@ -8,11 +8,9 @@
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
-#include <math.h>
 
-#include "Connection.h"
-#include "Link.h"
 #include "Manipulator.h"
+
 
 void split(const std::string &str, std::vector<std::string> &v) {
     std::stringstream ss(str);
