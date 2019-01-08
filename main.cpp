@@ -6,7 +6,7 @@
 #include <iterator>
 #include <sstream>
 #include "fstream"
-#include "Connection.cpp"
+#include "Connection.h"
 
 #include <iomanip>
 #include <algorithm>
@@ -30,21 +30,40 @@ void split(const std::string &str, std::vector<std::string> &v) {
 
 using namespace std;
 
+void handle_data(std::vector<float> &input_data) {
+    if (input_data.size() != 4) {
+        throw std::invalid_argument("Data should has 4 elements inside");
+    }
+    float previous_time = 0;
+
+    float x = input_data[0];
+    float y = input_data[1];
+    float z = input_data[2];
+    float time = input_data[3];
+
+
+}
+
+void parse_line(string &line, Connection *connection) {
+    std::vector<std::string> line_vector;
+    std::vector<float> input_vector;
+    std::cout << line << std::endl;
+
+
+    split(line, line_vector);
+
+    std::for_each(line_vector.begin(), line_vector.end(),
+                  [&input_vector](string &n) { input_vector.push_back(std::stof(n)); });
+    handle_data(input_vector);
+}
+
 int main() {
     ifstream myfile;
     string line;
+    auto connection = new Connection();
     myfile.open("/home/somal/Documents/2ndtest_mastersscholarshipinrobotics_sokolovmaxim/input.in");
     if (myfile.is_open()) {
-        while (getline(myfile, line)) {
-            std::cout << line << std::endl;
-
-            std::vector<std::string> v;
-            split(line, v);
-
-            std::for_each(v.begin(), v.end(), [](string &n) { std::stof(n); });
-//            std::cout << v[0] << std::endl;
-//            handle_data(v);
-        }
+        while (getline(myfile, line)) parse_line(line, connection);
     } else std::cout << "Unable to open file";
 
     myfile.close();

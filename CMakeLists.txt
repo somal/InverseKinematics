@@ -8,4 +8,6 @@ include_directories(.)
 add_executable(2ndtest_mastersscholarshipinrobotics_sokolovmaxim
         "Connection.h"
         "EN_TestTaskControl _.docx"
-        "input.in" Connection.cpp main.cpp)
+        "input.in"
+        Connection.cpp
+        main.cpp)

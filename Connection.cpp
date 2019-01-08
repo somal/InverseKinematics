@@ -28,12 +28,6 @@ int mult(int A[N][N], int B[N][N]) {
     return 0;
 }
 
-void handle_data(std::vector<float> &input_data) {
-    if (input_data.size() != 4) {
-        throw std::invalid_argument("Data should has 4 elements inside");
-    }
-
-}
 
 int Connection::open() {}
 
