@@ -18,6 +18,8 @@ public:
     Manipulator(vector<Link> *links, Connection *connection);
 
     ~Manipulator() = default;
+
+    vector<float> get_end_effector_pos();
 };
 
 

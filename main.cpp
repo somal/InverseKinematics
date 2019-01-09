@@ -10,51 +10,6 @@
 
 using namespace std;
 
-vector<vector<float>> matrix_multiplication(vector<vector<float>> A, vector<vector<float>> B) {
-    unsigned long N = A.size();
-    auto C = vector<vector<float>>(N, vector<float>(N, 0));
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            float num = 0;
-            for (int k = 0; k < N; k++) {
-                num += A[i][k] * B[k][j];
-            }
-            C[i][j] = num;
-        }
-    }
-    return C;
-}
-
-vector<float> get_end_effector_pos(vector<Link> links) {
-    vector<vector<float>> common_displacement_matrix = links[0].get_displacement_matrix(false);
-    for (int i = 1; i < links.size(); i++) {
-        vector<vector<float>> matrix = links[i].get_displacement_matrix(false);
-//        cout << links[i].joint->get_angle() << endl;
-
-//        for (int k = 0; k < matrix.size(); k++) {
-//            for (int j = 0; j < matrix[0].size(); j++)
-//                cout << common_displacement_matrix[k][j] << ' ';
-//            cout << endl;
-//        }
-//        cout << endl;
-
-        common_displacement_matrix = matrix_multiplication(common_displacement_matrix,
-                                                           links[i].get_displacement_matrix(false));
-    }
-
-
-//    for (int i = 0; i < common_displacement_matrix.size(); i++) {
-//        for (int j = 0; j < common_displacement_matrix[0].size(); j++)
-//            cout << common_displacement_matrix[i][j] << ' ';
-//        cout << endl;
-//    }
-//    cout << endl;
-
-    auto res = vector<float>{common_displacement_matrix[0][3],
-                             common_displacement_matrix[1][3],
-                             common_displacement_matrix[2][3]};
-    return res;
-}
 
 void split(const std::string &str, std::vector<std::string> &v) {
     std::stringstream ss(str);
@@ -77,12 +32,11 @@ void handle_data(std::vector<float> &input_data, Manipulator *manipulator) {
     if (input_data.size() != 4) {
         throw std::invalid_argument("Data should has 4 elements inside");
     }
-    float previous_time = 0;
+    float current_time = 0;
+    float needed_time = input_data[3];
 
-    float x = input_data[0];
-    float y = input_data[1];
-    float z = input_data[2];
-    float time = input_data[3];
+    auto needed_pos = vector<float>{input_data[0], input_data[1], input_data[2]};
+    auto current_pos = manipulator->get_end_effector_pos();
 
 
 }
@@ -141,17 +95,6 @@ int main() {
 
     auto connection = new Connection();
     auto manipulator = new Manipulator(&links, connection);
-    float i = 0;
-    vector<float> tmp;
-    while (i < M_PI) {
-        joints[1].set_angle(i);
-        i = i + M_PI / 16;
-        tmp = get_end_effector_pos(links);
-        for (auto n: tmp) cout << n << ' ';
-        cout << endl;
-    }
-
-
 
     // Working with input file
     ifstream myfile;
