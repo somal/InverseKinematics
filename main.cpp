@@ -1,22 +1,18 @@
-//
-// Created by somal on 08.01.19.
-//
-
 #include <iostream>
 #include <iterator>
 #include <sstream>
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
+#include <cstring>
 
 #include "Manipulator.h"
 
 using namespace std;
 
-vector<vector<float>> mult(vector<vector<float>> A, vector<vector<float>> B) {
+vector<vector<float>> matrix_multiplication(vector<vector<float>> A, vector<vector<float>> B) {
     unsigned long N = A.size();
     auto C = vector<vector<float>>(N, vector<float>(N, 0));
-    cout << N << endl;
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             float num = 0;
@@ -26,8 +22,38 @@ vector<vector<float>> mult(vector<vector<float>> A, vector<vector<float>> B) {
             C[i][j] = num;
         }
     }
-
     return C;
+}
+
+vector<float> get_end_effector_pos(vector<Link> links) {
+    vector<vector<float>> common_displacement_matrix = links[0].get_displacement_matrix(false);
+    for (int i = 1; i < links.size(); i++) {
+        vector<vector<float>> matrix = links[i].get_displacement_matrix(false);
+//        cout << links[i].joint->get_angle() << endl;
+
+//        for (int k = 0; k < matrix.size(); k++) {
+//            for (int j = 0; j < matrix[0].size(); j++)
+//                cout << common_displacement_matrix[k][j] << ' ';
+//            cout << endl;
+//        }
+//        cout << endl;
+
+        common_displacement_matrix = matrix_multiplication(common_displacement_matrix,
+                                                           links[i].get_displacement_matrix(false));
+    }
+
+
+//    for (int i = 0; i < common_displacement_matrix.size(); i++) {
+//        for (int j = 0; j < common_displacement_matrix[0].size(); j++)
+//            cout << common_displacement_matrix[i][j] << ' ';
+//        cout << endl;
+//    }
+//    cout << endl;
+
+    auto res = vector<float>{common_displacement_matrix[0][3],
+                             common_displacement_matrix[1][3],
+                             common_displacement_matrix[2][3]};
+    return res;
 }
 
 void split(const std::string &str, std::vector<std::string> &v) {
@@ -72,6 +98,34 @@ vector<float> parse_line(string &line) {
     return input_vector;
 }
 
+vector<unsigned char> convert_to_bytes(vector<float> &data_vector) {
+    unsigned char const *p = nullptr;
+    auto p_res = vector<unsigned char>();
+    for (auto data: data_vector) {
+        p = reinterpret_cast<unsigned char const *>(&data);
+        for (std::size_t ii = 0; ii != sizeof(float); ++ii) {
+            p_res.push_back(p[ii]);
+        }
+    }
+
+    return p_res;
+}
+
+vector<float> convert_to_floats(vector<unsigned char> &data) {
+    auto res = vector<float>();
+    for (int i = 0; i < data.size() / sizeof(float); i++) {
+        auto tmp = vector<unsigned char>();
+        for (int j = 0; j < sizeof(float); j++)
+            tmp.push_back(data[i * sizeof(float) + j]);
+        float f;
+        std::copy(reinterpret_cast<const char *>(&tmp[0]),
+                  reinterpret_cast<const char *>(&tmp[4]),
+                  reinterpret_cast<char *>(&f));
+        res.push_back(f);
+    }
+    return res;
+}
+
 int main() {
     // Manipulator configuration
     auto joints = vector<RevoluteJoint>{RevoluteJoint("Joint0", 0, 0, 0),
@@ -87,10 +141,17 @@ int main() {
 
     auto connection = new Connection();
     auto manipulator = new Manipulator(&links, connection);
+    float i = 0;
+    vector<float> tmp;
+    while (i < M_PI) {
+        joints[1].set_angle(i);
+        i = i + M_PI / 16;
+        tmp = get_end_effector_pos(links);
+        for (auto n: tmp) cout << n << ' ';
+        cout << endl;
+    }
 
-    joints[1].set_angle(M_PI / 3);
-    auto tmp = links[0].get_displacement_matrix(false);
-    auto res = mult(tmp, tmp);
+
 
     // Working with input file
     ifstream myfile;

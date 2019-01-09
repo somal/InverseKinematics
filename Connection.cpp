@@ -1,11 +1,8 @@
-//
-// Created by somal on 08.01.19.
-//
-
 #include "Connection.h"
 #include "iostream"
 
 using namespace std;
+
 
 int Connection::open() {}
 
@@ -21,5 +18,6 @@ int Connection::send(std::vector<unsigned char> &data) {
 int Connection::receive(std::vector<unsigned char> &data) {
     data = this->data;
 }
+
 
 
