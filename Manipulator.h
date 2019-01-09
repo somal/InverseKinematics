@@ -20,6 +20,10 @@ public:
     ~Manipulator() = default;
 
     vector<float> get_end_effector_pos();
+
+    vector<float> get_link_pos(int index);
+
+    vector<Link> *get_links();
 };
 
 

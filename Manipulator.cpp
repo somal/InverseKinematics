@@ -1,7 +1,4 @@
-//
-// Created by somal on 08.01.19.
-//
-
+#include <iostream>
 #include "Manipulator.h"
 
 Manipulator::Manipulator(vector<Link> *links, Connection *connection) {
@@ -24,10 +21,11 @@ vector<vector<float>> matrix_multiplication(vector<vector<float>> A, vector<vect
     return C;
 }
 
-vector<float> Manipulator::get_end_effector_pos() {
+vector<float> Manipulator::get_link_pos(int index) {
     auto links = *(this->links);
     vector<vector<float>> common_displacement_matrix = links[0].get_displacement_matrix(false);
-    for (int i = 1; i < links.size(); i++) {
+    for (int i = 1; i <= index; i++) {
+        cout << i << endl;
         vector<vector<float>> matrix = links[i].get_displacement_matrix(false);
         common_displacement_matrix = matrix_multiplication(common_displacement_matrix,
                                                            links[i].get_displacement_matrix(false));
@@ -39,3 +37,13 @@ vector<float> Manipulator::get_end_effector_pos() {
                              common_displacement_matrix[2][3]};
     return res;
 }
+
+
+vector<float> Manipulator::get_end_effector_pos() {
+    return this->get_link_pos(static_cast<int>(this->links->size() - 1));
+}
+
+vector<Link> *Manipulator::get_links() {
+    return this->links;
+}
+
