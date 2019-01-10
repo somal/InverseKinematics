@@ -12,7 +12,11 @@ public:
 
     ~Vector() = default;
 
-    static float cross_product(Vector *vector1, Vector *vector2);
+    float get_length();
+
+    static float scalar_product(Vector *vector1, Vector *vector2);
+
+    static Vector *vector_product(Vector *vector1, Vector *vector2);
 
     static Vector *float_multiplication(Vector *vector, float f);
 };
