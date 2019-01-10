@@ -13,7 +13,7 @@ public:
 
     ~RevoluteJoint() = default;
 
-    float get_angle() { return angle; };
+    float get_angle();
 
     void set_angle(float angle);
 

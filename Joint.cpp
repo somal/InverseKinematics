@@ -15,3 +15,7 @@ void RevoluteJoint::set_angle(float angle) {
         this->angle = angle;
     } else std::cout << "Joint " + this->name + " can't move on " << angle << std::endl;
 }
+
+float RevoluteJoint::get_angle() {
+    return angle;
+}
