@@ -16,13 +16,9 @@
 #endif
 
 #if DEBUG
-#define log(...) {\
-    char str[100];\
-    sprintf(str, __VA_ARGS__);\
-    std::cout << str << std::endl;\
-    }
+#define log(str) { std::cout << str << std::endl;}
 #else
-#define log(...)
+#define log(str)
 #endif
 
 const float PRECISION = 1e-1;
@@ -105,13 +101,13 @@ void handle_data(std::vector<float> &input_data, Manipulator *manipulator) {
 
             delta_angle = M_PI;
 
-            log("Start optimization\n");
+            log("Start optimization");
             while (abs(delta_angle) > M_PI / 2048) {
                 prev_dist = get_distance_to_goal(needed_pos, manipulator);
                 prev_angle = joint->get_angle();
                 log("Now we use joint " + joint->get_name() + " with angle " + std::to_string(joint->get_angle())
                     + ". The manipulator has distance " + std::to_string(get_distance_to_goal(needed_pos, manipulator))
-                    + ". The delta angle is " + std::to_string(delta_angle) + "\n");
+                    + ". The delta angle is " + std::to_string(delta_angle));
                 joint->turn_on_the_angle(delta_angle);
                 improvement_plus = prev_dist - get_distance_to_goal(needed_pos, manipulator);
                 joint->set_angle(prev_angle);
@@ -135,7 +131,7 @@ void handle_data(std::vector<float> &input_data, Manipulator *manipulator) {
         }
         // Use mutations in local minimum case
         if (not was_optimization) {
-            log("Use mutation for all joints\n");
+            log("Use mutation for all joints");
             auto links = *(manipulator->get_links());
             for (int i = 1; i < links.size() - 1; i++) {
                 auto joint = links[i].get_joint();
