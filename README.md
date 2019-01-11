@@ -2,4 +2,5 @@
 Task for REMY robotics
 
 ### Run system
-Run `main.cpp`.
+- Fix path of input file in `main.cpp`
+- Run `main.cpp` using CMake
