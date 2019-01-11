@@ -36,3 +36,7 @@ Link::Link(string name, float twist, float length, float offset, RevoluteJoint *
     this->joint = joint;
     this->name = name;
 }
+
+RevoluteJoint *Link::get_joint() {
+    return this->joint;
+}

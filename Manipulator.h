@@ -24,6 +24,12 @@ public:
     vector<float> get_link_pos(int index);
 
     vector<Link> *get_links();
+
+    Connection *get_connection();
+
+    vector<float> *get_all_angles();
+
+    void update_angles(vector<float> angles);
 };
 
 

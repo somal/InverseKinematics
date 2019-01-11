@@ -17,4 +17,10 @@ public:
 
     void set_angle(float angle);
 
+    void turn_on_the_angle(float angle);
+
+    string get_name();
+
+    void set_random_angle();
+
 };

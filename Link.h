@@ -18,6 +18,8 @@ public:
 
     vector<vector<float>> get_displacement_matrix(bool print);
 
+    RevoluteJoint *get_joint();
+
 };
 
 
