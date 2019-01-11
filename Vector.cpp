@@ -42,7 +42,7 @@ Vector::Vector(std::vector<float> pt_start, std::vector<float> pt_end) {
 
     this->x = pt_end[0] - pt_start[0];
     this->y = pt_end[1] - pt_start[1];
-    this->z = pt_end[2] - pt_start[1];
+    this->z = pt_end[2] - pt_start[2];
 }
 
 
