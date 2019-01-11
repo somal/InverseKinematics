@@ -15,7 +15,7 @@ void RevoluteJoint::set_angle(float angle) {
     if (this->min_limit <= angle && angle <= this->max_limit) {
         this->angle = angle;
     }
-    else std::cout << "Joint " + this->get_name() + " can't move on " << angle << std::endl;
+//    else std::cout << "Joint " + this->get_name() + " can't move on " << angle << std::endl;
 }
 
 float RevoluteJoint::get_angle() {

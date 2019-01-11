@@ -12,7 +12,7 @@
 #include "Manipulator.h"
 
 #ifndef DEBUG
-#define DEBUG 1 // set debug mode
+#define DEBUG 0 // set debug mode
 #endif
 
 #if DEBUG
@@ -149,6 +149,12 @@ void handle_data(std::vector<float> &input_data, Manipulator *manipulator) {
     manipulator->get_connection()->receive(byte_angles);
     auto angles = convert_to_floats(byte_angles);
     manipulator->update_angles(angles);
+
+    string s = "Angles ";
+    for (auto angle: angles) {
+        s = s + std::to_string(angle) + " ";
+    }
+    log(s);
 }
 
 vector<float> parse_line(string &line) {
