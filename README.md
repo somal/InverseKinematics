@@ -1,5 +1,4 @@
 # InverseKinematics
-Task for REMY robotics
 
 ### The system 
 The system emulate manipulator using Cyclic Coordinate Descent optimized by binary search.
